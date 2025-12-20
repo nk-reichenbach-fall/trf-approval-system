@@ -7,10 +7,10 @@ import {
   Button,
   Input,
   Heading,
-  FormControl,
-  FormLabel,
   VStack,
   Text,
+  Fieldset,
+  Field,
 } from "@chakra-ui/react";
 
 export default function LoginPage() {
@@ -41,24 +41,28 @@ export default function LoginPage() {
       </Heading>
 
       <form onSubmit={handleLogin}>
-        <VStack spacing={4}>
-          <FormControl>
-            <FormLabel>Email</FormLabel>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormControl>
+        <VStack gap={4}>
+          <Fieldset.Root>
+            <Fieldset.Content>
+              <Field.Root>
+                <Field.Label>Email</Field.Label>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Field.Root>
 
-          <FormControl>
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </FormControl>
+              <Field.Root>
+                <Field.Label>Password</Field.Label>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Field.Root>
+            </Fieldset.Content>
+          </Fieldset.Root>
 
           {error && <Text color="red.500">{error}</Text>}
 

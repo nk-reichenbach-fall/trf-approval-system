@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts", 
-    "middleware.ts",
+    "src/middleware.ts",
     "auth.ts"
   ],
   "exclude": ["node_modules"]

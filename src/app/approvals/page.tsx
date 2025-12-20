@@ -5,8 +5,10 @@ import styles from "../page.module.css";
 import { TbCircleCheckFilled, TbXboxXFilled } from "react-icons/tb";
 import { useEffect, useState } from "react";
 import { ApprovalDialog } from "@/components/ApprovalDialog";
+import { useRouter } from "next/navigation";
 
 type FormApproval = {
+  formId: string;
   title: string;
   grade: string;
   level: number;
@@ -17,6 +19,7 @@ type FormApproval = {
 
 export default function ApprovalsPage() {
   const [forms, setForms] = useState<FormApproval[]>([]);
+  const router = useRouter();
 
   // Fetch forms from the API
   useEffect(() => {
@@ -29,6 +32,7 @@ export default function ApprovalsPage() {
           },
         });
         const data = await response.json();
+        console.log(data);
         setForms(
           data.map(
             (form: {
@@ -40,7 +44,9 @@ export default function ApprovalsPage() {
               status: string;
               approvalAttemptId: string;
               isForApproval: boolean;
+              formId: string;
             }) => ({
+              formId: form.formId,
               title: form.formPayload.title,
               grade: form.formPayload.jobGrade,
               level: form.sequenceOrder,
@@ -96,6 +102,10 @@ export default function ApprovalsPage() {
     </Box>
   );
 
+  const handleViewDetails = (formId: string) => {
+    router.push(`/forms/${formId}`);
+  };
+
   return (
     <Box maxW="600px" mx="auto" mt="10">
       <Heading mb="6">For My Approvals</Heading>
@@ -112,7 +122,12 @@ export default function ApprovalsPage() {
         <Table.Body>
           {forms.map((form, index) => (
             <Table.Row key={index}>
-              <Table.Cell>{form.title}</Table.Cell>
+              <Table.Cell
+                cursor="pointer"
+                onClick={() => handleViewDetails(form.formId)}
+              >
+                {form.title}
+              </Table.Cell>
               <Table.Cell>{form.grade}</Table.Cell>
               <Table.Cell>{form.level}</Table.Cell>
               <Table.Cell>{form.status}</Table.Cell>

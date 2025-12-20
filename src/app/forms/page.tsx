@@ -10,6 +10,7 @@ type FormItem = {
   id: string;
   title: string;
   grade: string;
+  status: string;
 };
 
 export default function ApprovalsPage() {
@@ -28,15 +29,18 @@ export default function ApprovalsPage() {
           },
         });
         const data = await response.json();
+        console.log(data);
         setForms(
           data.map(
             (form: {
               id: string;
               payload: { title: string; jobGrade: string };
+              status: string;
             }) => ({
               id: form.id,
               title: form.payload.title,
               grade: form.payload.jobGrade,
+              status: form.status.toUpperCase(),
             })
           )
         );
@@ -61,23 +65,21 @@ export default function ApprovalsPage() {
           <Table.Row>
             <Table.ColumnHeader>Position Title</Table.ColumnHeader>
             <Table.ColumnHeader>Job Grade</Table.ColumnHeader>
-            <Table.ColumnHeader>Action</Table.ColumnHeader>
+            <Table.ColumnHeader>Status</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {!loading &&
             forms.map((form) => (
               <Table.Row key={form.id}>
-                <Table.Cell>{form.title}</Table.Cell>
-                <Table.Cell>{form.grade}</Table.Cell>
-                <Table.Cell className={styles.approveAction}>
-                  <TbEdit
-                    color="black"
-                    size={28}
-                    cursor="pointer"
-                    onClick={() => handleViewDetails(form.id)}
-                  />
+                <Table.Cell
+                  cursor="pointer"
+                  onClick={() => handleViewDetails(form.id)}
+                >
+                  {form.title}
                 </Table.Cell>
+                <Table.Cell>{form.grade}</Table.Cell>
+                <Table.Cell>{form.status}</Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
